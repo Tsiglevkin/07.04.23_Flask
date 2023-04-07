@@ -13,7 +13,7 @@ response_post = requests.post(
     }
 )
 print(response_post.status_code)
-print(response_post.json())
+print(response_post.text)
 
 
 
