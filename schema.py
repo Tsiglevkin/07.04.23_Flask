@@ -32,7 +32,7 @@ class CreateUser(pydantic.BaseModel):
     user_pass: str
 
     @pydantic.validator('name')
-    def validate_name(self, cls, value):
+    def validate_name(cls, value):
         """Проверка на длину имени"""
 
         if len(value) > 50:
@@ -40,7 +40,7 @@ class CreateUser(pydantic.BaseModel):
         return value
 
     @pydantic.validator('user_pass')
-    def validate_password(self, cls, value):
+    def validate_password(cls, value):
         """Проверка на длину пароля"""
 
         if len(value) < 8:
@@ -57,7 +57,7 @@ class UpdateUser(pydantic.BaseModel):
     user_pass: Optional[str]
 
     @pydantic.validator('user_pass')
-    def validate_password(self, cls, value):
+    def validate_password(cls, value):
         """Проверка на длину пароля"""
 
         if len(value) < 8:
@@ -69,7 +69,7 @@ class UpdateUser(pydantic.BaseModel):
 
 class CreateAdvertisement(pydantic.BaseModel):
     header: str
-    desc: str
+    desc: Optional[str]
     owner_id: int
 
 

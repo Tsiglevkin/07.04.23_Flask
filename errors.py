@@ -1,5 +1,5 @@
-from adver import application
 from flask import jsonify
+from adver import application
 
 
 class HttpError(Exception):
@@ -19,3 +19,6 @@ def error_handler(error: HttpError):
     response = jsonify({'status': 'error', 'message': error.message})
     response.status_code = error.status_code
     return response
+
+
+
