@@ -4,6 +4,7 @@ from errors import HttpError
 from flask import jsonify, request
 from schema import validate, CreateUser, UpdateUser, CreateAdvertisement, UpdateAdvertisement
 from hashlib import md5
+from sqlalchemy.exc import IntegrityError
 
 
 def get_user(user_id: int, session: Session) -> User:
@@ -27,7 +28,7 @@ class UserView(MethodView):  # создаем класс с методами CRU
             return response
 
     def post(self):
-        json_data = validate(json_data=request.json, model_class=CreateUser)
+        json_data = validate(json_data=request.json, model_class=CreateUser)  # валидируем данные.
 
         #  делаем хэширование пароля при помощи md5
         password = json_data.get('user_pass')  # достаем пароль из json
@@ -38,8 +39,11 @@ class UserView(MethodView):  # создаем класс с методами CRU
         with Session() as session:
             new_user = User(**json_data)
             session.add(new_user)
-            session.commit()
-            return jsonify({'id': new_user.id})
+            try:
+                session.commit()
+            except IntegrityError as error:
+                raise HttpError(409, 'user already exists.')
+            return jsonify({'id': new_user.id, 'name': new_user.name})
 
     def patch(self, user_id: int):
         pass
@@ -62,3 +66,7 @@ class AdvertisementView(MethodView):
 
     def delete(self):
         pass
+
+
+def hello():
+    return jsonify({'message': 'hello'})

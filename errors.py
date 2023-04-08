@@ -1,5 +1,4 @@
 from flask import jsonify
-from adver import application
 
 
 class HttpError(Exception):
@@ -12,7 +11,6 @@ class HttpError(Exception):
         self.message = message
 
 
-@application.errorhandler(HttpError)
 def error_handler(error: HttpError):
     """Метод генерирует ответ для пользователя на основании ошибки"""
 
