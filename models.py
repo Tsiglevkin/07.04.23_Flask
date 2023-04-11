@@ -4,7 +4,6 @@ from sqlalchemy.orm import declarative_base, relationship  # род. класс 
 from sqlalchemy import create_engine  # создание движка для подключения к БД
 from sqlalchemy.orm import sessionmaker  # создание сессии подключения
 import sqlalchemy as sq
-
 import os
 from dotenv import load_dotenv  # нужен для использования переменных окр.
 
